@@ -1,3 +1,5 @@
+using FreakyFashion.Services;
+
 namespace FreakyFashion
 {
     public class Startup
@@ -34,6 +36,8 @@ namespace FreakyFashion
                 .AddWebsite()
                 .AddComposers()
                 .Build();
+
+            services.AddTransient<ISearchService, SearchServices>();
         }
 
         /// <summary>

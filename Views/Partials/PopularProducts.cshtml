@@ -1,0 +1,28 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<IPopularProductsProperties>
+
+@{
+    var products = Umbraco.ContentAtRoot().DescendantsOrSelf<PopularProductsList>().FirstOrDefault();
+    if (products == null) return;
+}
+
+<!--Popular Products-->
+<section class="py-3">
+    <h2 class="display-6 fw-bold lh-1 mb-3 text-center py-4">@Model.PopularProductsTitle</h2>
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
+        @if(products.Children != null && products.Children.Any())
+        {
+            @foreach (var product in products.Children<ProductPage>())
+            {
+                <article class="col">
+                    <div class="card">
+                        <img src="@product.ProductImage.GetCropUrl("Thumb")" class="card-img-top">
+                        <a class="card-body d-flex justify-content-between link text-decoration-none link-dark" href="@product.Url()">
+                            <span class="card-text">@product.ProductTitle</span>
+                            <span class="card-text">@product.ProductPrice SEK</span>
+                        </a>
+                    </div>
+                </article>
+            }
+        }
+    </div>
+</section>

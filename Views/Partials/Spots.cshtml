@@ -1,0 +1,19 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ISpotsProperties>
+
+<!-- Spots -->
+<section class="d-flex justify-content-center gap-2 pb-5">
+    @foreach(var element in Model.SpotsContent)
+    {
+        <a href="@element.SpotElementLink.Url">
+            <div class="card bg-dark text-white border-none">
+                <img class="card-img" src="@element.SpotElementImage.GetCropUrl(600, 400)" alt="Card image">
+                <div class="card-img-overlay d-flex justify-content-center align-items-center">
+                    @if (element.SpotElementTitle != null)
+                    {
+                        <h3 class="card-title">@element.SpotElementTitle</h3>
+                    }
+                </div>
+            </div>
+        </a>
+    }
+</section>

@@ -1,0 +1,22 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<IHeroProperties>
+
+@{
+    //Stark typning för partials
+    //https://our.umbraco.com/Documentation/Reference/Templating/Modelsbuilder/Using-Interfaces
+}
+
+<!--Hero-->
+<div class="col-xxl-8 py-5 mx-auto">
+    <div class="row flex-lg-row-reverse align-items-center g-5 py-5 justify-content-center">
+        <div class="col-10 col-sm-8 col-lg-6">
+            <img src="@Model.HeroImage.GetCropUrl(450, 300)" class="d-block mx-auto img-fluid" loading="lazy">
+        </div>
+        <div class="col-lg-6 d-flex flex-column align-items-center gap-2">
+            <h1 class="display-5 fw-bold lh-1 mb-3">@Model.HeroTitle</h1>
+            <p class="lead">@Model.HeroMessage</p>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                <a href="@Model.HeroLink.Url" class="btn btn-primary btn-lg px-4 me-md-2">@Model.HeroButtonText</a>
+            </div>
+        </div>
+    </div>
+</div>

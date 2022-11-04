@@ -20,7 +20,7 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 {
 	/// <summary>Home Page</summary>
 	[PublishedModel("homePage")]
-	public partial class HomePage : PublishedContentModel
+	public partial class HomePage : PublishedContentModel, IHeroProperties, IPopularProductsProperties, ISpotsProperties
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
@@ -48,5 +48,61 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		}
 
 		// properties
+
+		///<summary>
+		/// Button Name: Enter name for the CTA button
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "10.2.1+25a20cf")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("heroButtonText")]
+		public virtual string HeroButtonText => global::Umbraco.Cms.Web.Common.PublishedModels.HeroProperties.GetHeroButtonText(this, _publishedValueFallback);
+
+		///<summary>
+		/// Image: Select the hero image
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "10.2.1+25a20cf")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("heroImage")]
+		public virtual global::Umbraco.Cms.Core.Models.MediaWithCrops HeroImage => global::Umbraco.Cms.Web.Common.PublishedModels.HeroProperties.GetHeroImage(this, _publishedValueFallback);
+
+		///<summary>
+		/// Link: Choose redirect url for CTA button
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "10.2.1+25a20cf")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("heroLink")]
+		public virtual global::Umbraco.Cms.Core.Models.Link HeroLink => global::Umbraco.Cms.Web.Common.PublishedModels.HeroProperties.GetHeroLink(this, _publishedValueFallback);
+
+		///<summary>
+		/// Message: Enter hero message
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "10.2.1+25a20cf")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("heroMessage")]
+		public virtual string HeroMessage => global::Umbraco.Cms.Web.Common.PublishedModels.HeroProperties.GetHeroMessage(this, _publishedValueFallback);
+
+		///<summary>
+		/// Title: Enter hero title
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "10.2.1+25a20cf")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("heroTitle")]
+		public virtual string HeroTitle => global::Umbraco.Cms.Web.Common.PublishedModels.HeroProperties.GetHeroTitle(this, _publishedValueFallback);
+
+		///<summary>
+		/// Title: Enter title for popular products
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "10.2.1+25a20cf")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("popularProductsTitle")]
+		public virtual string PopularProductsTitle => global::Umbraco.Cms.Web.Common.PublishedModels.PopularProductsProperties.GetPopularProductsTitle(this, _publishedValueFallback);
+
+		///<summary>
+		/// Content: Create up to three spots for display
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "10.2.1+25a20cf")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("spotsContent")]
+		public virtual global::System.Collections.Generic.IEnumerable<global::Umbraco.Cms.Web.Common.PublishedModels.SpotElement> SpotsContent => global::Umbraco.Cms.Web.Common.PublishedModels.SpotsProperties.GetSpotsContent(this, _publishedValueFallback);
 	}
 }
