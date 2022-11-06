@@ -1,0 +1,16 @@
+﻿@using FreakyFashion.Models.ViewModels
+@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BasketPageViewModel>
+
+@{
+    Layout = "Main.cshtml";
+    var checkoutPage = Umbraco.AssignedContentItem.Root().DescendantOrSelf<CheckoutPage>();
+}
+
+<div class="py-5">
+    <h1 class="display-5 fw-bold lh-1 mb-3">Kassan</h1>
+    @await Html.PartialAsync("BasketRows", Model.BasketViewModel)
+    <a href="@checkoutPage.Url()" class="btn btn-primary mt-3">Checkout</a>
+</div>
+
+

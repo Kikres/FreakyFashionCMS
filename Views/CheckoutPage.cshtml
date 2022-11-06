@@ -1,0 +1,23 @@
+﻿@using FreakyFashion.Models.ViewModels
+@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<CheckoutPageViewModel>
+
+@{
+    Layout = "Main.cshtml";
+}
+
+<div class="py-5">
+
+    @if(TempData["FormSuccess"] == null)
+    {
+        <h1 class="display-5 fw-bold lh-1 mb-3">Utcheckning</h1>
+        @await Html.PartialAsync("BasketRows", Model.BasketViewModel)
+
+        <h2 class="display-6 lh-1 mb-3">Kunduppgifter</h2>
+        @await Html.PartialAsync("RegisterMember", Model.RegisterModel)
+    }
+    else
+    {
+        <h1 class="display-5 fw-bold lh-1 mb-3">Tack för ordern!</h1>
+    }
+</div>

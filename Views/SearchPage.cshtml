@@ -1,18 +1,20 @@
 ﻿@using FreakyFashion.Models
 @using Umbraco.Cms.Core
 @using Umbraco.Cms.Web.Common.PublishedModels;
-@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<SearchViewModel>
+@using FreakyFashion.Models.ViewModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<SearchPageViewModel>
 
 
 @{
     Layout = "Main.cshtml";
-    ViewData["Title"] = "Sökning: " + @Model.QueryString;
-    var count = @Model.SearchResults.Count();
+    var count = Model.SearchResults.Count();
+    var queryString = Model.QueryString;
+    ViewData["Title"] = "Sökning: " + queryString;
 }
 
 <!--SearchResult-->
 <div class="pt-5">
-    <h2 class="fs-3 text-center">@count @(count > 1 || count == 0 ? "träffar" : "träff") på "@Model.QueryString"</h2>
+    <h2 class="fs-3 text-center">@count @(count > 1 || count == 0 ? "träffar" : "träff") på "@queryString"</h2>
     @foreach(var product in Model.SearchResults)
     {
         <product class="d-flex justify-content-center w-100">
