@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.InteropServices;
 
-namespace FreakyFashion.Models.ViewModels;
+namespace FreakyFashion.Models.ViewModels.Forms;
 
-public class RegisterViewModel
+public class CheckoutNewFormViewModel
 {
     [DisplayName("Förnamn")]
     [Required(ErrorMessage = "Fältet Förnamn måste fyllas i")]
@@ -19,5 +20,6 @@ public class RegisterViewModel
 
     [DisplayName("Lösenord")]
     [Required(ErrorMessage = "Fältet Lösenord måste fyllas i")]
-    public string Password { get; set; }
+    [MinLength(8, ErrorMessage = "Lösenorder måste var minst 8 tecken")]
+    public string? Password { get; set; }
 }

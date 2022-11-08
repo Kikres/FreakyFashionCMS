@@ -4,14 +4,11 @@ using Umbraco.Cms.Web.Common.PublishedModels;
 
 namespace FreakyFashion.Models.ViewModels;
 
-public class BasketViewModel
+public class BasketViewModel : BasketPage
 {
-    public IEnumerable<BasketItemViewModel> BasketItemViewModels { get; set; } = Enumerable.Empty<BasketItemViewModel>();
-}
+    public BasketViewModel(IPublishedContent content, IPublishedValueFallback publishedValueFallback) : base(content, publishedValueFallback)
+    {
+    }
 
-public class BasketItemViewModel
-{
-    public ProductPage Item { get; set; }
-    public int Quantity { get; set; }
-    public double Price { get; set; }
+    public BasketTableViewModel BasketTableViewModel { get; set; }
 }

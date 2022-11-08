@@ -1,5 +1,5 @@
 ﻿@using FreakyFashion.Models.ViewModels
-@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BasketViewModel>
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BasketTableViewModel>
 
 <!--BasketTable-->
 <table class="table table-borderless">
@@ -14,7 +14,7 @@
         @foreach (var basketItem in Model.BasketItemViewModels)
         {
             <tr>
-                <td>@basketItem.Item.ProductTitle</td>
+                <td>@basketItem.Product.Name</td>
                 <td class="text-center">@basketItem.Quantity</td>
                 <td class="text-center">@basketItem.Price</td>
             </tr>

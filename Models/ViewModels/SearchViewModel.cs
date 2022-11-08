@@ -4,9 +4,9 @@ using Umbraco.Cms.Web.Common.PublishedModels;
 
 namespace FreakyFashion.Models.ViewModels;
 
-public class SearchPageViewModel : SearchPage
+public class SearchViewModel : SearchPage
 {
-    public SearchPageViewModel(IPublishedContent content, IPublishedValueFallback publishedValueFallback) : base(content, publishedValueFallback)
+    public SearchViewModel(IPublishedContent content, IPublishedValueFallback publishedValueFallback) : base(content, publishedValueFallback)
     {
     }
 

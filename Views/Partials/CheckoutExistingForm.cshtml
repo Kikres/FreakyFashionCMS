@@ -1,0 +1,27 @@
+﻿@using FreakyFashion.Controllers.Form
+@using FreakyFashion.Models.ViewModels.Forms
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<CheckoutExistingFormViewModel>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+
+@using (Html.BeginUmbracoForm<CheckoutFormController>(nameof(CheckoutFormController.CheckoutExistingAccount)))
+{
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row g-2 mb-2">
+            <div class="form-floating col-6">
+                <input asp-for="@Model.FirstName" class="form-control" disabled />
+                <label asp-for="@Model.FirstName"></label>
+            </div>
+            <div class="form-floating col-6">
+                <input asp-for="@Model.LastName" class="form-control" aria-required="false" disabled />
+                <label asp-for="@Model.LastName"></label>
+            </div>
+        </div>
+        <div class="form-floating col-12 mb-2">
+        <input asp-for="@Model.Email" class="form-control" aria-required="false" disabled />
+            <label asp-for="@Model.Email"></label>
+        </div>
+        <button type="submit" class="btn btn-primary">Köp</button>
+}

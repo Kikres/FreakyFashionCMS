@@ -1,62 +1,47 @@
 ﻿using FreakyFashion.Models.ViewModels;
-using FreakyFashion.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Umbraco.Cms.Core.Web;
 using Umbraco.Cms.Web.Common.Controllers;
 using Umbraco.Cms.Web.Common.PublishedModels;
 using Umbraco.Cms.Core.Models.PublishedContent;
-using System.Text.Json;
+using FreakyFashion.Services;
 
 namespace FreakyFashion.Controllers
 {
     public class CheckoutPageController : RenderController
     {
         private readonly IPublishedValueFallback _publishedValueFallback;
+        private readonly IBasketService _basketService;
+        private readonly ICustomMemberService _customMemberService;
 
         public CheckoutPageController(
             ILogger<RenderController> logger,
             ICompositeViewEngine compositeViewEngine,
             IUmbracoContextAccessor umbracoContextAccessor,
-            IPublishedValueFallback publishedValueFallback) : base(logger, compositeViewEngine, umbracoContextAccessor)
+            IPublishedValueFallback publishedValueFallback,
+            IBasketService basketService,
+            ICustomMemberService customMemberService) : base(logger, compositeViewEngine, umbracoContextAccessor)
         {
             _publishedValueFallback = publishedValueFallback;
+            _basketService = basketService;
+            _customMemberService = customMemberService;
         }
 
         public override IActionResult Index()
         {
-            var serializedBasket = HttpContext.Session.GetString("Basket");
-
-            Basket? basket = serializedBasket != null
-                ? JsonSerializer.Deserialize<Basket>(serializedBasket)
-                : new Basket();
-
-            var viewModel = new CheckoutPageViewModel(CurrentPage, _publishedValueFallback);
-
-            if(TempData["FormSuccess"] != null)
+            var basketItemViewModels = _basketService.GetBasket().BasketItems.Values.Select(o => new BasketItemViewModel
             {
-                return CurrentTemplate(viewModel);
-            }
+                Product = UmbracoContext.Content.GetAtRoot().DescendantsOrSelf<ProductPage>().FirstOrDefault(x => x.Id == o.ProductId),
+                Quantity = o.Quantity
+            });
 
-            var basketItemViewModels = new List<BasketItemViewModel>();
+            var viewModel = new CheckoutViewModel(CurrentPage, _publishedValueFallback);
 
-            foreach (var basketItem in basket.BasketItems)
-            {
-                var item = UmbracoContext.Content.GetAtRoot().DescendantsOrSelf<ProductPage>().FirstOrDefault(y => y.Id == basketItem.Key);
-                var quantity = basketItem.Value.Quantity;
-                var price = item.ProductPrice * quantity;
-
-                basketItemViewModels.Add(new BasketItemViewModel
-                {
-                    Item = item,
-                    Quantity = quantity,
-                    Price = price
-                });
-            }
-
-            
-            viewModel.BasketViewModel = new BasketViewModel { BasketItemViewModels = basketItemViewModels };
-            viewModel.RegisterModel = new RegisterViewModel();
+            viewModel.BasketViewModel = new BasketTableViewModel { BasketItemViewModels = basketItemViewModels };
+            viewModel.CheckoutNewFormViewModel = new Models.ViewModels.Forms.CheckoutNewFormViewModel();
+            viewModel.CheckoutExistingFormViewModel = new Models.ViewModels.Forms.CheckoutExistingFormViewModel();
+            viewModel.isLoggedIn = _customMemberService.IsLoggedIn();
 
             return CurrentTemplate(viewModel);
         }

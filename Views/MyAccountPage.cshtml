@@ -1,6 +1,39 @@
-﻿@using Umbraco.Cms.Web.Common.PublishedModels;
-@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.MyAccountPage>
-@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+﻿@using FreakyFashion.Models.ViewModels
+@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<MyAccountViewModel>
+
 @{
 	Layout = "Main.cshtml";
 }
+
+
+
+<div class="py-5">
+    <h1 class="display-6 fw-bold lh-1 mb-3 mb-5 text-center">@Model.Member.Name</h1>
+    <h2 class="fs-3 lh-1 mb-3">Mina ordrar</h2>
+    <hr />
+
+    <table class="table table-borderless">
+        <thead class="text-secondary fs-6">
+            <tr>
+                <th scope="col">Ordernr.</th>
+                <th class="text-left" scope="col">Datum</th>
+                <th class="text-end" scope="col">Totalt</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var orderRow in Model.OrderRowViewModels){
+            <tr>
+                <td>@orderRow.OrderId</td>
+                <td class="text-left">@orderRow.Date</td>
+                <td class="text-end">@orderRow.Total</td>
+            </tr>
+            }
+
+        </tbody>
+    </table>
+
+</div>
+
+
+

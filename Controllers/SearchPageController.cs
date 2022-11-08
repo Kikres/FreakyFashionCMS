@@ -30,7 +30,7 @@ namespace FreakyFashion.Controllers
             // Get the queryString from the request
             string queryString = HttpContext.Request.Query["query"];
 
-            var viewModel = new SearchPageViewModel(CurrentPage, _publishedValueFallback)
+            var viewModel = new SearchViewModel(CurrentPage, _publishedValueFallback)
             {
                 SearchResults = _searchService.SearchContentProducts(queryString),
                 HasSearched = !string.IsNullOrEmpty(queryString),

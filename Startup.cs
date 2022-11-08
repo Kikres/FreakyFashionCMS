@@ -38,6 +38,9 @@ namespace FreakyFashion
                 .Build();
 
             services.AddTransient<ISearchService, SearchServices>();
+            services.AddTransient<IBasketService, BasketService>();
+            services.AddTransient<ICustomMemberService, CustomMemberService>();
+            services.AddTransient<IOrderService, OrderService>();
         }
 
         /// <summary>
