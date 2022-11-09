@@ -1,0 +1,14 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ISEoproperties>
+
+@{
+    var siteSettingsContent = Umbraco.ContentAtRoot().DescendantsOrSelf<SiteSettings>().FirstOrDefault();
+}
+
+@if (siteSettingsContent != null){
+    <title>@Model.Title - @siteSettingsContent.SiteSettingsTitle</title>
+} else {
+    <title>@Model.Title</title>
+}
+@if (Model.Description != null){
+    <meta name="description" content="@Model.Description">
+}

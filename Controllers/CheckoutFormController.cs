@@ -1,24 +1,19 @@
-﻿using FreakyFashion.Models;
-using FreakyFashion.Models.ViewModels.Forms;
+﻿using FreakyFashion.Components;
+using FreakyFashion.Models;
 using FreakyFashion.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Umbraco.Cms.Core.Cache;
 using Umbraco.Cms.Core.Logging;
-using Umbraco.Cms.Core.Models;
 using Umbraco.Cms.Core.Routing;
-using Umbraco.Cms.Core.Scoping;
-using Umbraco.Cms.Core.Security;
 using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Core.Web;
 using Umbraco.Cms.Infrastructure.Persistence;
 using Umbraco.Cms.Web.Common.Filters;
 using Umbraco.Cms.Web.Common.PublishedModels;
-using Umbraco.Cms.Web.Common.Security;
 using Umbraco.Cms.Web.Website.Controllers;
-using Umbraco.Cms.Web.Website.Models;
 
-namespace FreakyFashion.Controllers.Form;
+namespace FreakyFashion.Controllers;
 
 public class CheckoutFormController : SurfaceController
 {

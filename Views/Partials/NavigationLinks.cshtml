@@ -1,0 +1,14 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+
+@{
+    var homeContent = Umbraco.ContentAtRoot().DescendantsOrSelf<HomePage>().FirstOrDefault();
+}
+
+<div class="my-auto fs-4 text-center d-flex gap-3">
+    @if(homeContent?.NavigationLinks != null){
+        @foreach (var link in homeContent.NavigationLinks)
+        {
+        <a href="@link.Url" class="link link-dark text-decoration-none fs-6">@link.Name</a>
+        }
+    }
+</div>

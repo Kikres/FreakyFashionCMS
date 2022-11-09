@@ -20,7 +20,7 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 {
 	/// <summary>Search Page</summary>
 	[PublishedModel("searchPage")]
-	public partial class SearchPage : PublishedContentModel
+	public partial class SearchPage : PublishedContentModel, ISEoproperties
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
@@ -50,11 +50,19 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		// properties
 
 		///<summary>
-		/// test: test
+		/// Description: Enter the SEO description
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "10.2.1+25a20cf")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
-		[ImplementPropertyType("test")]
-		public virtual string Test => this.Value<string>(_publishedValueFallback, "test");
+		[ImplementPropertyType("description")]
+		public virtual string Description => global::Umbraco.Cms.Web.Common.PublishedModels.SEoproperties.GetDescription(this, _publishedValueFallback);
+
+		///<summary>
+		/// Title: Enter the title for the page
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "10.2.1+25a20cf")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("title")]
+		public virtual string Title => global::Umbraco.Cms.Web.Common.PublishedModels.SEoproperties.GetTitle(this, _publishedValueFallback);
 	}
 }
