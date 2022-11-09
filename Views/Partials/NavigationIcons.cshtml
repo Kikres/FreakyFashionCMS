@@ -1,0 +1,26 @@
+﻿@using Umbraco.Cms.Web.Common.Models
+@using Umbraco.Cms.Web.Website.Controllers
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ISEoproperties>
+
+@{
+    var isLoggedIn = Context.User?.Identity?.IsAuthenticated ?? false;
+    var loginContent = Umbraco.ContentAtRoot().DescendantsOrSelf<LoginPage>().FirstOrDefault();
+    var basketContent = Umbraco.ContentAtRoot().DescendantsOrSelf<BasketPage>().FirstOrDefault();
+    var myAccountContent = Umbraco.ContentAtRoot().DescendantsOrSelf<MyAccountPage>().FirstOrDefault();
+    var homeContent = Umbraco.ContentAtRoot().DescendantsOrSelf<HomePage>().FirstOrDefault();
+    var logoutModel = new PostRedirectModel();
+    logoutModel.RedirectUrl = "https://www.google.se"; 
+}
+
+<div class="my-auto fs-4 text-center d-flex gap-3">
+    <a href="@basketContent.Url()" class="position-relative"><i class="fa-regular fa-cart-shopping link-dark text-decoration-none"></i></a>
+    @if (!isLoggedIn){
+        <a href="@loginContent.Url()"><i class="fa-solid fa-right-to-bracket link-dark text-decoration-none py-0"></i></a>
+    } else {
+        <a href="@myAccountContent.Url()"><i class="fa-solid fa-user link-dark text-decoration-none py-0"></i></a>
+        @using (Html.BeginUmbracoForm<UmbLoginStatusController>("HandleLogout", new { RedirectUrl = logoutModel.RedirectUrl }))
+        {
+            <button type="submit" class="border-0 bg-transparent p-0"><i class="fa-solid fa-right-from-bracket my-auto"></i></button>
+        }
+    }
+</div>

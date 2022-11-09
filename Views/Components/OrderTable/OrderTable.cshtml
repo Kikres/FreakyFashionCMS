@@ -1,0 +1,23 @@
+﻿@using FreakyFashion.Components
+@model OrderTableViewModel
+
+<!--OrderTable-->
+<table class="table table-borderless">
+    <thead class="text-secondary fs-6">
+        <tr>
+            <th scope="col">Ordernr.</th>
+            <th class="text-left" scope="col">Datum</th>
+            <th class="text-end" scope="col">Totalt</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var orderRow in Model.OrderRowViewModels)
+        {
+            <tr>
+                <td>@orderRow.OrderId</td>
+                <td class="text-left">@orderRow.Date</td>
+                <td class="text-end">@orderRow.Total</td>
+            </tr>
+        }
+    </tbody>
+</table>

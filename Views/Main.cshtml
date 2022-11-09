@@ -1,17 +1,7 @@
-﻿@using Umbraco.Cms.Web.Common.Models
-@using Umbraco.Cms.Web.Common.PublishedModels;
-@using Umbraco.Cms.Web.Website.Controllers
-@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
 
 @{
     Layout = null;
-    var siteSettingsContent = Umbraco.ContentAtRoot().DescendantsOrSelf<SiteSettings>().FirstOrDefault();
-    var isLoggedIn = Context.User?.Identity?.IsAuthenticated ?? false;
-    var loginContent = Umbraco.ContentAtRoot().DescendantsOrSelf<LoginPage>().FirstOrDefault();
-    var basketContent = Umbraco.ContentAtRoot().DescendantsOrSelf<BasketPage>().FirstOrDefault();
-    var myAccountContent = Umbraco.ContentAtRoot().DescendantsOrSelf<MyAccountPage>().FirstOrDefault();
-    var logoutModel = new PostRedirectModel();
-    logoutModel.RedirectUrl = null;
 }
 
 <!DOCTYPE html>
@@ -20,12 +10,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        @if (ViewData["Title"] != null){
-        <title>@ViewData["Title"] &bull; @siteSettingsContent.SiteSettingsTitle</title>
-        } else {
-        <title>@siteSettingsContent.SiteSettingsTitle</title>
-        }
-        
+        @await Html.PartialAsync("SEO")
+
         @*CSS*@
         <link rel="stylesheet" href="/style.css">
 
@@ -36,7 +22,7 @@
         @*FontAwesome*@
         <script defer src="https://kit.fontawesome.com/bc0187f442.js" crossorigin="anonymous"></script>
     </head>
-    <body>
+<body class="d-flex flex-column min-vh-100">
         <!--Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
             <div class="container px-4 px-lg-5">
@@ -46,6 +32,7 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
+                    @await Html.PartialAsync("NavigationLinks")
                     <ul class="navbar-nav ms-auto py-4 py-lg-0">
                         <form action="/soek" class="d-flex me-3">
                             <input class="form-control me-2"
@@ -55,18 +42,8 @@
                                    name="query" />
                             <button class="btn btn-outline-dark" type="submit">Sök</button>
                         </form>
-                        <div class="my-auto fs-4 text-center d-flex gap-3">
-                            <a href="@basketContent.Url()" class="position-relative"><i class="fa-regular fa-cart-shopping link-dark text-decoration-none"></i></a>
-                            @if(!isLoggedIn){
-                                <a href="@loginContent.Url()"><i class="fa-solid fa-right-to-bracket link-dark text-decoration-none py-0"></i></a>
-                            } else {
-                            <a href="@myAccountContent.Url()"><i class="fa-solid fa-user link-dark text-decoration-none py-0"></i></a>
-                                @using (Html.BeginUmbracoForm<UmbLoginStatusController>("HandleLogout", new { RedirectUrl = logoutModel.RedirectUrl }))
-                                {
-                                <button type="submit" class="border-0 bg-transparent p-0"><i class="fa-solid fa-right-from-bracket my-auto"></i></button>
-                                }
-                            }
-                        </div>
+                        @await Html.PartialAsync("NavigationIcons")
+                        
                     </ul>
                 </div>
             </div> 
@@ -75,32 +52,52 @@
             @RenderBody()
         </main>
         <!--Footer-->
-        <footer class="bg-light text-center text-lg-start">
-            <div class="container p-4">
-                <div class="row">
-                    <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-                        <h5 class="text-uppercase">Links</h5>
-
-                        <ul class="list-unstyled mb-0">
-                            <li>
-                                <a href="#!" class="text-dark">Link 1</a>
-                            </li>
-                            <li>
-                                <a href="#!" class="text-dark">Link 2</a>
-                            </li>
-                            <li>
-                                <a href="#!" class="text-dark">Link 3</a>
-                            </li>
-                            <li>
-                                <a href="#!" class="text-dark">Link 4</a>
-                            </li>
-                        </ul>
-                    </div>
+        <footer class="footer mt-auto pt-3 bg-light">
+            <div class="container row row-cols-1 row-cols-sm-2 row-cols-xl-4 g-4 fs-2 mx-auto pt-3 pb-5">
+                <div class="col">
+                    <i class="fa-regular fa-earth-europe"></i>
+                <span class="text-secondary fs-5">Gratis frakt och returer</span>
+                </div>
+                <div class="col">
+                <i class="fa-regular fa-truck-fast"></i>
+                    <span class="text-secondary fs-5">Expressfrakt</span>
+                </div>
+                <div class="col">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span class="text-secondary fs-5">Säkra betalningar</span>
+                </div>
+                <div class="col">
+                <i class="fa-regular fa-sparkles"></i>
+                    <span class="text-secondary fs-5">Nyheter varje dag</span>
+                </div>
+            </div>
+            <div class="d-flex flex-column flex-sm-row gap-5 container">
+                <div class="">
+                    <div class="mb-3"><span class="fs-5">Shopping</span></div>
+                    <ul class="nav flex-column">
+                    <li><a class="nav-link text-secondary px-0" href="#">Vinterjackor</a></li>
+                    <li><a class="nav-link text-secondary px-0" href="#">Puferjackor</a></li>
+                    <li><a class="nav-link text-secondary px-0" href="#">Kappa</a></li>
+                    <li><a class="nav-link text-secondary px-0" href="#">Trenchcoats</a></li>
+                    </ul>
+                </div>
+                <div class="">
+                    <div class="mb-3"><span class="fs-5">Mina Sidor</span></div>
+                    <ul class="nav flex-column">
+                        <li><a class="nav-link px-0 text-secondary" href="#">Mina Ordrar</a></li>
+                        <li><a class="nav-link px-0 text-secondary" href="#">Mitt Konto</a></li>
+                    </ul>
+                </div>
+                <div class="">
+                    <div class="mb-3"><span class="fs-5">Kundtjänst</span></div>
+                    <ul class="nav flex-column">
+                        <li><a class="nav-link px-0 text-secondary" href="#">Returnpolicy</a></li>
+                        <li><a class="nav-link px-0 text-secondary" href="#">Integritetspolicy</a></li>
+                    </ul>
                 </div>
             </div>
             <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-                &copy; @DateTime.Now.Year Copyright:
-                <a class="text-dark" href="https://mdbootstrap.com/">FreakyFashion</a>
+                &copy; @DateTime.Now.Year Copyright: FreakyFashion
             </div>
         </footer>
     </body>

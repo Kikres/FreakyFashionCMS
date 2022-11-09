@@ -1,8 +1,5 @@
 ﻿using FreakyFashion.Models;
-using System.ComponentModel.DataAnnotations;
-using Umbraco.Cms.Core.Scoping;
-using Umbraco.Cms.Core.Web;
-using Umbraco.Cms.Web.Common.PublishedModels;
+using Umbraco.Cms.Infrastructure.Scoping;
 using static FreakyFashion.Migrations.AddOrderLineTable;
 using static FreakyFashion.Migrations.AddOrderTable;
 

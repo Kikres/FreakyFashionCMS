@@ -1,8 +1,7 @@
 ﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<IPopularProductsProperties>
 
 @{
-    var products = Umbraco.ContentAtRoot().DescendantsOrSelf<PopularProductsList>().FirstOrDefault();
-    if (products == null) return;
+    var products = Umbraco.ContentAtRoot().DescendantsOrSelf<ProductsList>().FirstOrDefault();
 }
 
 <!--Popular Products-->

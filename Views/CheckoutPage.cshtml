@@ -1,6 +1,5 @@
-﻿@using FreakyFashion.Models.ViewModels
-@using Umbraco.Cms.Web.Common.PublishedModels;
-@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<CheckoutViewModel>
+﻿@using FreakyFashion.Components
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<CheckoutPage>
 
 @{
     Layout = "Main.cshtml";
@@ -11,14 +10,10 @@
     @if(TempData["FormSuccess"] == null)
     {
         <h1 class="display-5 fw-bold lh-1 mb-3">Utcheckning</h1>
-        @await Html.PartialAsync("BasketTable", Model.BasketViewModel)
+        @await Component.InvokeAsync(nameof(BasketTable))
 
         <h2 class="display-6 lh-1 mb-3">Kunduppgifter</h2>
-        @if(!Model.isLoggedIn){
-            @await Html.PartialAsync("CheckoutNewForm", Model.CheckoutNewFormViewModel)
-        } else {
-            @await Html.PartialAsync("CheckoutExistingForm", Model.CheckoutExistingFormViewModel)
-        }
+        @await Component.InvokeAsync(nameof(CheckoutForm))
     }
     else
     {
