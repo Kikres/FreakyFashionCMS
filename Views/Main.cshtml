@@ -22,83 +22,15 @@
         @*FontAwesome*@
         <script defer src="https://kit.fontawesome.com/bc0187f442.js" crossorigin="anonymous"></script>
     </head>
-<body class="d-flex flex-column min-vh-100">
-        <!--Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="/">FreakyFashion</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    Menu
-                    <i class="fas fa-bars"></i>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    @await Html.PartialAsync("NavigationLinks")
-                    <ul class="navbar-nav ms-auto py-4 py-lg-0">
-                        <form action="/soek" class="d-flex me-3">
-                            <input class="form-control me-2"
-                                   type="search"
-                                   aria-label="Search"
-                                   placeholder="Sök produkt"
-                                   name="query" />
-                            <button class="btn btn-outline-dark" type="submit">Sök</button>
-                        </form>
-                        @await Html.PartialAsync("NavigationIcons")
-                        
-                    </ul>
-                </div>
-            </div> 
-        </nav>
+    <body class="d-flex flex-column min-vh-100">
+    
+        @await Html.PartialAsync("Navigation")
+            
         <main class="container">
             @RenderBody()
         </main>
-        <!--Footer-->
-        <footer class="footer mt-auto pt-3 bg-light">
-            <div class="container row row-cols-1 row-cols-sm-2 row-cols-xl-4 g-4 fs-2 mx-auto pt-3 pb-5">
-                <div class="col">
-                    <i class="fa-regular fa-earth-europe"></i>
-                <span class="text-secondary fs-5">Gratis frakt och returer</span>
-                </div>
-                <div class="col">
-                <i class="fa-regular fa-truck-fast"></i>
-                    <span class="text-secondary fs-5">Expressfrakt</span>
-                </div>
-                <div class="col">
-                <i class="fa-solid fa-shield-halved"></i>
-                <span class="text-secondary fs-5">Säkra betalningar</span>
-                </div>
-                <div class="col">
-                <i class="fa-regular fa-sparkles"></i>
-                    <span class="text-secondary fs-5">Nyheter varje dag</span>
-                </div>
-            </div>
-            <div class="d-flex flex-column flex-sm-row gap-5 container">
-                <div class="">
-                    <div class="mb-3"><span class="fs-5">Shopping</span></div>
-                    <ul class="nav flex-column">
-                    <li><a class="nav-link text-secondary px-0" href="#">Vinterjackor</a></li>
-                    <li><a class="nav-link text-secondary px-0" href="#">Puferjackor</a></li>
-                    <li><a class="nav-link text-secondary px-0" href="#">Kappa</a></li>
-                    <li><a class="nav-link text-secondary px-0" href="#">Trenchcoats</a></li>
-                    </ul>
-                </div>
-                <div class="">
-                    <div class="mb-3"><span class="fs-5">Mina Sidor</span></div>
-                    <ul class="nav flex-column">
-                        <li><a class="nav-link px-0 text-secondary" href="#">Mina Ordrar</a></li>
-                        <li><a class="nav-link px-0 text-secondary" href="#">Mitt Konto</a></li>
-                    </ul>
-                </div>
-                <div class="">
-                    <div class="mb-3"><span class="fs-5">Kundtjänst</span></div>
-                    <ul class="nav flex-column">
-                        <li><a class="nav-link px-0 text-secondary" href="#">Returnpolicy</a></li>
-                        <li><a class="nav-link px-0 text-secondary" href="#">Integritetspolicy</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-                &copy; @DateTime.Now.Year Copyright: FreakyFashion
-            </div>
-        </footer>
+            
+        @await Html.PartialAsync("Footer")
+    
     </body>
 </html>
