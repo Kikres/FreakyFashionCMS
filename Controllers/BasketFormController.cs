@@ -30,13 +30,13 @@ public class BasketFormController : SurfaceController
     [HttpPost]
     public IActionResult AddToCart(int id)
     {
-        if (UmbracoContext?.Content?.GetAtRoot().DescendantsOrSelf<ProductPage>().Where(x => x.Id == id).First() == null)
+        var success = _basketService.AddProductToBasket(id);
+
+        if (!success)
         {
             TempData["error"] = "error";
             return RedirectToCurrentUmbracoPage();
         }
-
-        _basketService.AddProductToBasket(id);
 
         TempData["success"] = "success";
         return RedirectToCurrentUmbracoPage();

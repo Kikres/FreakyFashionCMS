@@ -25,8 +25,16 @@ public class BasketTable : ViewComponent
             var basketItems = _basketService.GetBasket().BasketItems.Values;
             foreach (var item in basketItems)
             {
-                var productPage = context.Content.GetAtRoot().DescendantsOrSelf<ProductPage>().FirstOrDefault(x => x.Id == item.ProductId);
-                var basketRow = new BasketRowViewModel { Name = productPage.ProductTitle, Quantity = item.Quantity, Price = productPage.ProductPrice * item.Quantity };
+                var productPage = context.Content
+                    .GetAtRoot()
+                    .DescendantsOrSelf<ProductPage>()
+                    .FirstOrDefault(x => x.Id == item.ProductId);
+                var basketRow = new BasketRowViewModel
+                {
+                    Name = productPage.ProductTitle,
+                    Quantity = item.Quantity,
+                    Price = productPage.ProductPrice * item.Quantity
+                };
                 viewModel.BasketRows.Add(basketRow);
             }
         }

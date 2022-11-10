@@ -1,6 +1,8 @@
 ﻿using FreakyFashion.Models;
 using Org.BouncyCastle.Bcpg;
 using System.Text.Json;
+using Umbraco.Cms.Core.Web;
+using Umbraco.Cms.Web.Common.PublishedModels;
 
 namespace FreakyFashion.Services;
 
@@ -8,9 +10,7 @@ public interface IBasketService
 {
     Basket GetBasket();
 
-    void UpdateBasket(Basket basket);
-
-    public void AddProductToBasket(int id);
+    public bool AddProductToBasket(int id);
 
     public void ClearBasket();
 }
@@ -18,10 +18,12 @@ public interface IBasketService
 public class BasketService : IBasketService
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IUmbracoContextAccessor _umbracoContextAccessor;
 
-    public BasketService(IHttpContextAccessor httpContextAccessor)
+    public BasketService(IHttpContextAccessor httpContextAccessor, IUmbracoContextAccessor umbracoContextAccessor)
     {
         _httpContextAccessor = httpContextAccessor;
+        _umbracoContextAccessor = umbracoContextAccessor;
     }
 
     public Basket GetBasket()
@@ -30,29 +32,35 @@ public class BasketService : IBasketService
         return serializedBasket != null ? JsonSerializer.Deserialize<Basket>(serializedBasket) : new Basket();
     }
 
-    public void UpdateBasket(Basket basket)
+    public bool AddProductToBasket(int id)
     {
-        _httpContextAccessor?.HttpContext?.Session.SetString("Basket", JsonSerializer.Serialize(basket));
-    }
-
-    public void AddProductToBasket(int id)
-    {
-        var basket = GetBasket();
-
-        if (basket.BasketItems.ContainsKey(id))
+        if (_umbracoContextAccessor.TryGetUmbracoContext(out IUmbracoContext context))
         {
-            basket.BasketItems[id].Quantity += 1;
-        }
-        else
-        {
-            basket.BasketItems.Add(id, new BasketItem { ProductId = id, Quantity = 1 });
-        }
+            if (context.Content.GetAtRoot().DescendantsOrSelf<ProductPage>().FirstOrDefault(o => o.Id == id) == null) return false;
 
-        UpdateBasket(basket);
+            var basket = GetBasket();
+            if (basket.BasketItems.ContainsKey(id))
+            {
+                basket.BasketItems[id].Quantity += 1;
+            }
+            else
+            {
+                basket.BasketItems.Add(id, new BasketItem { ProductId = id, Quantity = 1 });
+            }
+
+            UpdateBasket(basket);
+            return true;
+        }
+        return false;
     }
 
     public void ClearBasket()
     {
         _httpContextAccessor?.HttpContext?.Session.Clear();
+    }
+
+    private void UpdateBasket(Basket basket)
+    {
+        _httpContextAccessor?.HttpContext?.Session.SetString("Basket", JsonSerializer.Serialize(basket));
     }
 }

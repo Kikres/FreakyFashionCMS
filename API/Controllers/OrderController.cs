@@ -45,16 +45,14 @@ public class OrderController : UmbracoApiController
         var productPageList = GetProductList().Children<ProductPage>();
         if (!productPageList.Any()) return NoContent();
 
-        var productList = productPageList.Select(o => new ProductDto
+        var productDtoList = new List<ProductDto>();
+        foreach (var productPage in productPageList)
         {
-            Id = o.Id,
-            Title = o.ProductTitle,
-            Description = o.ProductDescription,
-            Price = o.ProductPrice,
-            ImageId = o.ProductImage.Id
-        });
+            ProductDto productDto = ConvertToProductDto(productPage);
+            productDtoList.Add(productDto);
+        }
 
-        return Ok(productList);
+        return Ok(productDtoList);
     }
 
     [HttpGet("{id}")]
@@ -63,21 +61,26 @@ public class OrderController : UmbracoApiController
         var productPage = GetProductList().Children<ProductPage>().Where(o => o.Id == id).FirstOrDefault();
         if (productPage == null) return NotFound();
 
-        return Ok(MapProduct(productPage));
+        ProductDto productDto = ConvertToProductDto(productPage);
+
+        return Ok(productDto);
     }
 
-    private ProductDto MapProduct(ProductPage productPage)
+    private ProductDto ConvertToProductDto(ProductPage productPage)
     {
-        var product = new ProductDto
+        var seoProperties = productPage as ISEoproperties;
+
+        var productDto = new ProductDto
         {
+            SeoTitle = seoProperties.Title,
+            SeoDescription = seoProperties.Description,
             Id = productPage.Id,
             Title = productPage.ProductTitle,
             Description = productPage.ProductDescription,
             Price = productPage.ProductPrice,
             ImageId = productPage.ProductImage.Id
         };
-
-        return product;
+        return productDto;
     }
 
     private ProductsList? GetProductList()

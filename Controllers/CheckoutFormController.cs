@@ -48,53 +48,30 @@ public class CheckoutFormController : SurfaceController
 
         if (result.Succeeded)
         {
-            //TODO: Här
+            CreateOrder();
 
-            //Hämta inloggad användare
-            var user = _customMemberService.GetLoggedInMember();
-
-            //Hämta basket
-            var basket = _basketService.GetBasket();
-            if (basket == null) CurrentUmbracoPage();
-
-            //Skapa order via service
-            _orderService.CreateOrder(new Order
-            {
-                UmbracoMemberId = user.Id,
-                OrderLines = basket.BasketItems.Values.Select(o =>
-                    new OrderLine
-                    {
-                        ProductId = o.ProductId,
-                        Quantity = o.Quantity,
-                        Price = UmbracoContext.Content.GetAtRoot().DescendantsOrSelf<ProductPage>().FirstOrDefault(x => x.Id == o.ProductId).ProductPrice * o.Quantity
-                    })
-            });
-
-            //Radera varukorgen
-            _basketService.ClearBasket();
-
-            //Updatera TempData och skicka tillbaka användare
             TempData["FormSuccess"] = true;
             return RedirectToCurrentUmbracoPage();
         }
 
-        //TODO: Kolla i register partial hur vi plockar ut errors och renderar
-        AddErrors(result);
         return CurrentUmbracoPage();
     }
 
     public IActionResult CheckoutExistingAccount()
     {
-        if (!ModelState.IsValid) return CurrentUmbracoPage();
+        CreateOrder();
 
-        //Hämta inloggad användare
+        TempData["FormSuccess"] = true;
+        return RedirectToCurrentUmbracoPage();
+    }
+
+    private void CreateOrder()
+    {
         var user = _customMemberService.GetLoggedInMember();
 
-        //Hämta basket
         var basket = _basketService.GetBasket();
         if (basket == null) CurrentUmbracoPage();
 
-        //Skapa order via service
         _orderService.CreateOrder(new Order
         {
             UmbracoMemberId = user.Id,
@@ -103,23 +80,13 @@ public class CheckoutFormController : SurfaceController
                 {
                     ProductId = o.ProductId,
                     Quantity = o.Quantity,
-                    Price = UmbracoContext.Content.GetAtRoot().DescendantsOrSelf<ProductPage>().FirstOrDefault(x => x.Id == o.ProductId).ProductPrice * o.Quantity
+                    Price = UmbracoContext.Content
+                    .GetAtRoot()
+                    .DescendantsOrSelf<ProductPage>()
+                    .FirstOrDefault(x => x.Id == o.ProductId).ProductPrice * o.Quantity
                 })
         });
 
-        //Radera varukorgen
         _basketService.ClearBasket();
-
-        //Updatera TempData och skicka tillbaka användare
-        TempData["FormSuccess"] = true;
-        return RedirectToCurrentUmbracoPage();
-    }
-
-    private void AddErrors(IdentityResult result)
-    {
-        foreach (IdentityError? error in result.Errors)
-        {
-            ModelState.AddModelError("registerViewModel", error.Description);
-        }
     }
 }

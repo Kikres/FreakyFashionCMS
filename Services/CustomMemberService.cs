@@ -67,16 +67,14 @@ public class CustomMemberService : ICustomMemberService
 
         if (identityResult.Succeeded)
         {
-            // Update the custom properties
-            // TODO: See TODO in MembersIdentityUser, Should we support custom member properties for persistence/retrieval?
             IMember? member = _memberService.GetByKey(identityUser.Key);
             if (member == null)
             {
-                // should never happen
                 throw new InvalidOperationException($"Could not find a member with key: {member?.Key}.");
             }
 
             _memberService.Save(member);
+            _memberService.AssignRole(member.Id, "Customer");
 
             if (logMemberIn)
             {
